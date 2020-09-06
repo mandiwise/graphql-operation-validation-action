@@ -16,7 +16,7 @@ Under the hood, this project uses [GraphQL.js](https://github.com/graphql/graphq
 
 You'll first need to create a YAML file to describe the workflow in your project (e.g. `.github/workflows/operations.yml`).
 
-Next, add a job to the file that uses [`actions/checkout`](https://github.com/actions/checkout) to check out your repository's files (adding them to the `$GITHUB_WORKSPACE`). You can then run the validation action on the checked out files as the job's second step.
+Next, add a job to the file that uses the [actions/checkout](https://github.com/actions/checkout) package to check out your repository's files (adding them to the `$GITHUB_WORKSPACE`). You can then run the validation action on the checked out files as the job's second step.
 
 This action supports the following inputs:
 
@@ -25,7 +25,7 @@ This action supports the following inputs:
 - `excluded_paths`: Comma-separated directory/file paths in the `base_dir` to exclude (relative to `base_dir`)
 - `token`: Token to use with an Authorization header (only the Bearer scheme is supported)
 
-The following example illustrates how you would validate the GraphQL operations whenever you push or make a pull request to a repository. The action points to a local schema file in the repository at `swapi/schema.graphql`, looks for operations in the `swapi` directory, and excludes the `swapi/schema.graphql` file when searching for operations documents (because this would result in an error):
+The following example illustrates how you would validate the GraphQL operations whenever you push or make a pull request to the `main` branch of a repository. The action points to a local schema file in the repository at `swapi/schema.graphql`, looks for operations in the `swapi` directory, and excludes the `swapi/schema.graphql` file when searching for operations documents (because this would result in an error):
 
 ```yaml
 name: Validate GraphQL Operations
@@ -42,7 +42,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Validate operations
+      - name: Validate SWAPI operations
         uses: mandiwise/graphql-operation-validation-action@v1
         with:
           schema_location: ${{ github.workspace }}/swapi/schema.graphql
@@ -50,31 +50,31 @@ jobs:
           excluded_paths: schema.graphql
 ```
 
-At a minimum, you must specify the `${{ github.workspace }}` as your `base_dir` input, but you may wish to narrow the search to a specific sub-directory in the project that all operations are nested below. The `node_modules` directory is automatically ignored when searching for operations, so you don't need to include it in the optional `excluded_paths` input.
+At a minimum, you must specify the `${{ github.workspace }}` as your `base_dir` input, but you may wish to narrow the search to a specific subdirectory in the project that all operations are nested below. The `node_modules` directory is automatically ignored when searching for operations, so you don't need to include it in the optional `excluded_paths` input.
 
 Now when you push to the `main` branch or a PR is submitted you can check the Actions tab of your repository on GitHub to see the result. If any operations are invalid, then they will be noted in the log.
 
 ### Use an Auth Token
 
-If you need to validate your operations against a schema that requires a token in an `Authorization` header, then you can add it as a `token` input value under:
+If you need to validate your operations against a schema that requires a token in an `Authorization` header, then you can add it as a `token` input value:
 
 ```yaml
 # ...
-  - name: Validate operations
+  - name: Validate GitHub GraphQL API operations
     uses: mandiwise/graphql-operation-validation-action@v1
     with:
       schema_location: https://api.github.com/graphql
       base_dir: ${{ github.workspace }}/github
-      token: ${{ secrets.AccessToken }}
+      token: ${{ secrets.ACCESS_TOKEN }}
 ```
 
-The header will be sent using the `Authorization: Bearer token...` scheme only. Please see GitHub's documentation for [using encrypted secrets in a workflow](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#using-encrypted-secrets-in-a-workflow).
+The header will be sent using the `Authorization: Bearer token...` scheme only. Please see GitHub's documentation on [using encrypted secrets in a workflow](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets#using-encrypted-secrets-in-a-workflow).
 
 ### Run It Locally
 
 Want to validate your operations in your development environment or without pushing to your repository? No problem!
 
-You can use [`act`](https://github.com/nektos/act) to run this action locally.
+You can use [act](https://github.com/nektos/act) to run this action locally.
 
 ## Development
 
