@@ -1,7 +1,7 @@
 {
   "name": "graphql-operation-validation-action",
   "version": "1.0.0",
-  "description": "A GitHub Action that validates all operations performed by a client application against a GraphQL API.",
+  "description": "A GitHub Action that validates all operations performed by a client application against a GraphQL schema.",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint .",

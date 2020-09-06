@@ -1,5 +1,5 @@
 name: "GraphQL Operation Validation"
-description: "A GitHub Action that validates all operations performed by a client application against a GraphQL APIs"
+description: "A GitHub Action that validates all operations performed by a client application against a GraphQL schema"
 inputs:
   excluded_paths:
     description: "Comma-separated directory/file paths in the `base_dir` to exclude (relative to `base_dir`)"
