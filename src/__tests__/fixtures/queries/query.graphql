@@ -1,0 +1,16 @@
+query ORIGINAL_TRILOGY {
+  allFilms(first: 3) {
+    edges {
+      node {
+        title
+        characterConnection {
+          edges {
+            node {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

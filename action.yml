@@ -1,0 +1,18 @@
+name: "GraphQL Operation Validation"
+description: "A GitHub Action that validates all operations performed by a client application against a GraphQL APIs"
+inputs:
+  excluded_paths:
+    description: "Comma-separated directory/file paths in the `base_dir` to exclude (relative to `base_dir`)"
+    required: false
+  base_dir:
+    description: "The base directory to search for operations (relative to repo directory)"
+    required: true
+  schema_location:
+    description: "An endpoint URL or path of a .json/.graphql file (relative to repo directory)"
+    required: true
+  token:
+    description: "Token to use with an Authorization header (only the Bearer scheme is supported)"
+    required: false
+runs:
+  using: "node12"
+  main: "dist/index.js"
